@@ -107,8 +107,8 @@ pipeline {
                     npx wait-port http://localhost:8080/api/health --timeout=30000
                     npm ci
                     npx playwright test
-                    # mkdir -p reports
-                    # mv playwright-report reports/
+                    mkdir -p reports
+                    mv playwright-report reports/playwright-report
                     '''
                 }
             }
@@ -118,7 +118,7 @@ pipeline {
                         allowMissing: false,
                         alwaysLinkToLastBuild: true,
                         keepAll: true,
-                        reportDir: 'bugtracker-frontend/reports/playwright-report',
+                        reportDir: 'tests-api/playwright-report',
                         reportFiles: 'index.html',
                         reportName: 'API Test Report'
                     ])

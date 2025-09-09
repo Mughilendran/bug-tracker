@@ -114,6 +114,7 @@ pipeline {
             }
             post {
                 always {
+                    junit 'tests-api/test-results.xml/results.xml'
                     publishHTML(target: [
                         allowMissing: false,
                         alwaysLinkToLastBuild: true,

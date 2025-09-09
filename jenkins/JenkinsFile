@@ -93,6 +93,38 @@ pipeline {
                 '''
             }
         }
+        stage('api testing') {
+            agent {
+                docker {
+                    image 'mcr.microsoft.com/playwright:v1.37.1-focal'
+                    args '--privileged -u 0'
+                    reuseNode true
+                }
+            }
+            steps {
+                dir('tests-api') {
+                    sh '''
+                    npx wait-port http://localhost:8080/api/health --timeout=30000
+                    npm ci
+                    npx playwright test
+                    # mkdir -p reports
+                    # mv playwright-report reports/
+                    '''
+                }
+            }
+            post {
+                always {
+                    publishHTML(target: [
+                        allowMissing: false,
+                        alwaysLinkToLastBuild: true,
+                        keepAll: true,
+                        reportDir: 'bugtracker-frontend/reports/playwright-report',
+                        reportFiles: 'index.html',
+                        reportName: 'API Test Report'
+                    ])
+                }
+            }
+        }
     }
     post {
         always {

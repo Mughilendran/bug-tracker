@@ -9,6 +9,11 @@ pipeline {
                     reuseNode true
                     }
             }
+            environment {
+                GOCACHE = "${WORKSPACE}/.gocache"
+                GOPATH = "${WORKSPACE}/go"
+                PATH = "${env.PATH}:${WORKSPACE}/go/bin"
+            }
             steps {
                 dir('bugtracker-backend') {
                     sh 'go test -v ./...' 

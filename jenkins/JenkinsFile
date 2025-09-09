@@ -11,8 +11,9 @@ pipeline {
             }
             environment {
                 GOCACHE = "${WORKSPACE}/.gocache"
-                GOPATH = "${WORKSPACE}/go"
-                PATH = "${env.PATH}:${WORKSPACE}/go/bin"
+                GOPATH  = "${WORKSPACE}/go"
+                GOBIN   = "${WORKSPACE}/go/bin"
+                PATH    = "${env.PATH}:${WORKSPACE}/go/bin"
             }
             steps {
                 dir('bugtracker-backend') {

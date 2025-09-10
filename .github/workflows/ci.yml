@@ -33,6 +33,12 @@ jobs:
           cat coverage.txt >> ${GITHUB_STEP_SUMMARY}
           echo "```" >> ${GITHUB_STEP_SUMMARY}
           go test -v ./... 2>&1 | go-junit-report > test-results.xml
+        
+      - name: Debug coverage files
+        run: |
+            ls -la bugtracker-backend
+            cat bugtracker-backend/coverage.txt || echo "coverage.txt not found"
+
 
       - name: Publish backend test results
         uses: dorny/test-reporter@v1

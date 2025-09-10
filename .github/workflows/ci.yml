@@ -185,8 +185,11 @@ jobs:
 
       - name: Run E2E tests
         working-directory: ./tests-e2e
+        env:
+          CI: "1"
         run: |
           npm ci
+          npx playwright install
           npx playwright test
 
       - name: Shutdown application

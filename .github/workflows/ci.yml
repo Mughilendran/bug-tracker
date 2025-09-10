@@ -42,8 +42,10 @@ jobs:
           cat bugtracker-backend/coverage.txt >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
 
-          echo "::set-output name=report::$(cat bugtracker-backend/coverage.txt)"
-        
+          echo "report<<EOF" >> $GITHUB_OUTPUT
+          cat bugtracker-backend/coverage.txt >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          
       - name: Debug coverage files
         run: |
             ls -la bugtracker-backend

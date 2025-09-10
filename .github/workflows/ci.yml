@@ -103,7 +103,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
-      steps: 
+    steps: 
       - name: Create coverage comment
         uses: peter-evans/create-or-update-comment@v2
         with:

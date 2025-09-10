@@ -97,7 +97,7 @@ pipeline {
             agent {
                 docker {
                     image 'mcr.microsoft.com/playwright:v1.47.2-jammy'
-                    args '-u 0'
+                    args '-u 0 --network="host"'
                     reuseNode true
                 }
             }
@@ -107,8 +107,6 @@ pipeline {
                     npx wait-port http://localhost:8080/api/health --timeout=30000
                     npm ci
                     npx playwright test
-                    mkdir -p reports
-                    mv playwright-report reports/playwright-report
                     '''
                 }
             }

@@ -65,6 +65,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: unit-tests-backend
 
+    outputs:
+      coverage: ${{ steps.frontend-tests.outputs.report }}
+
     steps:
       - uses: actions/checkout@v4
 
@@ -82,11 +85,16 @@ jobs:
           npm test | tee fullOutput.txt
 
       - name: Append frontend coverage summary
+        id: frontend-tests
         run: |
           echo "Coverage front details:" >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
           cat bugtracker-frontend/fullOutput.txt >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
+
+          echo "report<<EOF" >> $GITHUB_OUTPUT
+          cat bugtracker-frontend/fullOutput.txt >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Publish frontend test results
         uses: dorny/test-reporter@v1
@@ -100,6 +108,7 @@ jobs:
     if: github.event_name == 'pull_request'
     needs: 
       - unit-tests-backend
+      - unit-tests-frontend
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
@@ -112,4 +121,13 @@ jobs:
             ## Backend Coverage Summary
             ```
             ${{ needs.unit-tests-backend.outputs.coverage }}
+            ```
+      - name: Create coverage comment frontend
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            ## Frontend Coverage Summary
+            ```
+            ${{ needs.unit-tests-frontend.outputs.coverage }}
             ```

@@ -201,7 +201,9 @@ jobs:
         uses: dorny/test-reporter@v1
         if: always()
         with:
-          name: ./tests-e2e/test-results/results.xml
+          name: testE2E-results
+          path: ./tests-e2e/test-results/*.xml
+          reporter: jest-junit
 
       - name: Upload Playwright Artifacts
         if: always()

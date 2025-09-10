@@ -227,7 +227,7 @@ jobs:
           npx wait-port http://localhost:3000 -t 30000
 
       - name: Set up k6
-        uses: grafana/setup-k6@v1
+        uses: grafana/setup-k6-action@v1
 
       - name: Run performance tests
         uses: grafana/run-k6-action@v1

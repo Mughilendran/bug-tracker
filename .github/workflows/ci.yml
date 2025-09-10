@@ -28,11 +28,6 @@ jobs:
         run: |
           go test -json -coverprofile=coverage.out -covermode=atomic ./...
           go tool cover -func=coverage.out > coverage.txt
-
-          echo "Coverage details:" >> ${GITHUB_STEP_SUMMARY}
-          echo "```" >> ${GITHUB_STEP_SUMMARY}
-          cat coverage.txt >> ${GITHUB_STEP_SUMMARY}
-          echo "```" >> ${GITHUB_STEP_SUMMARY}
           go test -v ./... 2>&1 | go-junit-report > test-results.xml
         
       - name: Append coverage summary
@@ -77,10 +72,12 @@ jobs:
           npm ci
           npm test | tee fullOutput.txt
 
-          echo "Test details:" >> ${GITHUB_STEP_SUMMARY}
-          echo "```" >> ${GITHUB_STEP_SUMMARY}
-          cat fullOutput.txt >> ${GITHUB_STEP_SUMMARY}
-          echo "```" >> ${GITHUB_STEP_SUMMARY}
+      - name: Append frontend coverage summary
+        run: |
+          echo "Coverage front details:" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          cat fullOutput.txt >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
 
       - name: Publish frontend test results
         uses: dorny/test-reporter@v1

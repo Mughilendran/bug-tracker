@@ -230,7 +230,6 @@ jobs:
         uses: grafana/setup-k6@v1
 
       - name: Run performance tests
-        working-directory: ./tests-perf
         uses: grafana/run-k6-action@v1
         with:
           path: ./tests-perf/script.js

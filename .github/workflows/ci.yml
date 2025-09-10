@@ -26,7 +26,7 @@ jobs:
       - name: Run backend unit tests
         working-directory: ./bugtracker-backend
         run: |
-          go test json -coverprofile=coverage.out -covermode=atomic ./...
+          go test -json -coverprofile=coverage.out -covermode=atomic ./...
           go tool cover -func=coverage.out > coverage.txt
           echo "Coverage details:" >> ${GITHUB_STEP_SUMMARY}
           echo "```" >> ${GITHUB_STEP_SUMMARY}
